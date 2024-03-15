@@ -1,0 +1,49 @@
+.foto {
+    width: 10%;
+    height: 10%;
+    display: block;
+    margin: 0 auto;
+  }
+.background-Guilmon{
+  background-image: url(../semáforo2/img/vermelho\ 2.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.background-Togemon{
+  background-image: url(../semáforo2/img/verde\ 2.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+.background-Agumon{
+  background-image: url(../semáforo2/img/amarelo\ 2.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+p {
+  font-size: 18px;
+  margin: 0;
+  color: #333;
+}
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
+#momento {
+  font-size: 24px;
+  font-weight: bold;
+ 
+}
+#infopok{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

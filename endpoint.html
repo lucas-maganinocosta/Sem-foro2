@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transit Room Status</title>
+    <link rel="stylesheet" href="corzinha.css">
+</head>
+<body>
+    <section id="momento">No momento está:</section>
+    <div id="infopok">
+    </div>
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.0.3/tsparticles.confetti.bundle.min.js"></script>
+<script>
+    let momento = document.getElementById("momento");
+    let pokemon = document.getElementById("infopok");
+
+    // Função para buscar dados da API de trânsito e exibir o Digimon correspondente
+    fetch("https://niloweb.com.br/transit-room/api/reg_endpoint.php")
+        .then(response => response.json())
+        .then(data => {
+            // Verifica o estado do trânsito
+            let transitState = data[0].res;
+            let digimonId;
+            let statusMessage;
+
+            // Determina qual Digimon e mensagem de status usar com base no estado do trânsito
+            switch (transitState) {
+                case "B":
+                    digimonId = 14; 
+                    statusMessage = "No momento está bloqueado";
+                    break;
+                case "L":
+                    digimonId = 31; 
+                    statusMessage = "No momento está livre";
+                    break;
+                default:
+                    digimonId = 289;
+                    statusMessage = "No momento está aguardando";
+                    break;
+            }
+
+            momento.innerHTML = statusMessage;
+
+            // Busca dados da API de Digimon e exibe a imagem associada ao estado do trânsito
+            fetch(`https://digi-api.com/api/v1/digimon/${digimonId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Dados da API de Digimon:", data);
+                pokemon.innerHTML = `<img src="${data.images[0].href}" alt="${data.name}">`;
+            })
+            .catch(error => {
+                console.error('Erro ao buscar dados da API de Digimon:', error);
+                pokemon.innerHTML = "Erro ao buscar dados da API de Digimon. Verifique o console para mais detalhes.";
+            });
+        })
+        .catch(error => {
+            console.error('Erro ao buscar dados da API de trânsito:', error);
+        });
+    function fetchData() {
+        fetch("https://niloweb.com.br/transit-room/api/reg_endpoint.php")
+        .then(response => response.json())
+        .then(data => {
+
+            document.body.classList.remove("background-Guilmon","background-Togemon","background-Agumon")
+            // Verifica o estado do trânsito
+            let transitState = data[0].res;
+            let digimonId;
+            let statusMessage;
+
+            // Determina qual Digimon e mensagem de status usar com base no estado do trânsito
+            switch (transitState) {
+                case "B":
+                    digimonId = 14; // ID do Digimon para estado bloqueado
+                    statusMessage = "No momento está bloqueado";
+                    document.body.classList.add("background-Guilmon")
+                    break;
+                case "L":
+                    digimonId = 31; // ID do Digimon para estado livre
+                    statusMessage = "No momento está livre";
+                    document.body.classList.add("background-Togemon")
+                    break;
+                default:
+                    digimonId = 289; // ID do Digimon para estado aguardando
+                    statusMessage = "No momento está aguardando";
+                    document.body.classList.add("background-Agumon")
+                    break;
+
+            }
+
+            momento.innerHTML = statusMessage;
+
+            // Busca dados da API de Digimon e exibe a imagem associada ao estado do trânsito
+            fetch(`https://digi-api.com/api/v1/digimon/${digimonId}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("Dados da API de Digimon:", data);
+                pokemon.innerHTML = `<img src="${data.images[0].href}" alt="${data.name}">`;
+            })
+            .catch(error => {
+                console.error('Erro ao buscar dados da API de Digimon:', error);
+                pokemon.innerHTML = "Erro ao buscar dados da API de Digimon. Verifique o console para mais detalhes.";
+            });
+            document.getElementById('audio').play();
+        })
+        .catch(error => {
+            console.error('Erro ao buscar dados da API de trânsito:', error);
+        });
+    }
+
+    setInterval(fetchData, 10000);
+</script>
+</html>
